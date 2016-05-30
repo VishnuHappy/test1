@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>   
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="scripts.js"></script>
+<script type="text/javascript" src="http://use.typekit.com/oya4cmx.js"></script>
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="css/bootstrap.min.css" />
+<link rel="stylesheet" href="css/bootstrap-theme.min.css" />
+<style>
+@font-face { font-family: title; src: url('fonts/strasua.ttf'); }
+body {
+    background-color: #222a20;
+}
+#fetch {
+    top: 50%;
+    left: 50%;
+}
+#title{
+    margin-left: auto;
+    margin-right: auto;
+   font-family: title;
+   color : white;
+   font-size: 4vh;
+   vertical-align: middle;
+   text-shadow: 5px 5px 15px #000000;
+}
+#imgb {
+   width: 50vw;
+   height: 60vh;
+   position: fixed;
+   right : 00px;
+   bottom : 00px;
+}
+#imgt {
+   width: 50vw;
+   height: 60vh;
+   
+   position: fixed;
+   top:00px;
+   left:00px;
+}
+#test {
+   min-height:100%;
+}
+#joker {
+   text-align:center;
+   font-size: 5vh;
+   color:white;
+}
+#Poster {
+   display: block;
+    margin: 0 auto;}
+#term {
+   text-align: center;
+   font-size:2.5vw;
+   height:5vh;
+   width :30vw;
+   box-shadow:5px 5px 15px #000000;
+   -webkit-box-shadow: 5px 5px 15px #000000;
+   -moz-box-shadow: 5px 5px 15px #000000;
+}
+#search {
+   height:6vh;
+   width:8vw;
+   cursor:pointer; 
+   padding:5px 25px;
+   background:#005b7f; 
+   border:1px solid #005b7f;
+   -moz-border-radius: 30px;
+   -webkit-border-radius: 30px;
+   border-radius: 30px;
+   -webkit-box-shadow: 0 0 14px #000001;
+   -moz-box-shadow: 0 0 14px #000001;
+   box-shadow: 0 0 14px #000001;
+   color:#f3f3f3;
+   font-size:3vh;
+
+}
+
+
+</style>
+</head>
+<body>
+
+ 
+      <img class="img-responsive" src="images/rows1.png" id="imgt" >
+   
+    
+     <br><br><br><br><br><br>
+      <p id ="title" style="text-align:center" >ENTER THE NAME OF THE MOVIE TO SEARCH FOR?</p>
+      <section id="fetch" style="text-align:center">
+      
+      <input type="text" placeholder="Type Here" id="term" allign="center"/>
+      
+      <br><br>
+      <button type="button" id="search" >Search</button>
+    
+   </section>
+   
+   <br>
+   <img id="Poster">
+   <br><br>
+   <div id="joker" ></div>
+     <img  src="images/rows2.png" id="imgb"  >
+    
+
+<script>
+$("#search").click(function(){
+
+
+
+        var film = $('#term').val();
+
+         if(film == ''){
+
+            document.getElementById("joker").innerHTML ="TYPE A NAME";
+
+         } else {
+
+            
+
+            $.getJSON("http://www.omdbapi.com/?t="+ film +"&r=json", function(json) {
+               if (json.Response != "False"){
+                     
+                     $('#joker').html('<p style="font-color:#FFFFFF">Title :'+ json.Title+'</h2>'+ 
+                        '<br>Director :'+ json.Director+
+                        '<br>Year :'+ json.Year +
+                        '<br>Language :'+ json.Language+'</p>');
+                        if(json.Poster!="N/A")
+                        document.getElementById("Poster").src=json.Poster;
+                        else
+                         document.getElementById("Poster").src="images/nf.png";  
+                  } else {
+                     $.getJSON("http://www.omdbapi.com/?t=lord+of+the+rings&y=&plot=full&r=json", function(json) {
+                        $('#poster').attr('src', '');
+                        document.getElementById("joker").innerHTML ="We couldn't Find Anything";
+                     });
+                  }
+             });
+
+          }
+          
+
+
+        return false;
+   
+
+
+});
+</script>
+</body>
+</html>
